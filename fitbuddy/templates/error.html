@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block title %}
+FitBuddy - Error
+{% endblock %}
+
+
+{% block content %}
+
+<section class="card error-card">
+
+    <div class="error-icon">
+        ⚠️
+    </div>
+
+    <h1>
+        Something went wrong
+    </h1>
+
+    <p>
+        {{ message }}
+    </p>
+
+    <div class="center-actions">
+
+        <a
+            href="/"
+            class="btn btn-primary"
+        >
+            Return Home
+        </a>
+
+    </div>
+
+</section>
+
+{% endblock %}

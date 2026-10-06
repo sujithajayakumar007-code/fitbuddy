@@ -1,0 +1,282 @@
+{% extends "base.html" %}
+
+{% block title %}
+FitBuddy - Your Plan
+{% endblock %}
+
+
+{% block content %}
+
+<section class="result-header">
+
+    <span class="badge">
+        YOUR PERSONALIZED PLAN
+    </span>
+
+    <h1>
+        Hello, {{ user.name }}! 👋
+    </h1>
+
+    <p>
+        Here is your FitBuddy fitness plan.
+    </p>
+
+</section>
+
+
+<section class="profile-grid">
+
+    <div class="profile-item">
+
+        <span>
+            User ID
+        </span>
+
+        <strong>
+            {{ user.user_id }}
+        </strong>
+
+    </div>
+
+
+    <div class="profile-item">
+
+        <span>
+            Age
+        </span>
+
+        <strong>
+            {{ user.age }}
+        </strong>
+
+    </div>
+
+
+    <div class="profile-item">
+
+        <span>
+            Weight
+        </span>
+
+        <strong>
+            {{ user.weight }} kg
+        </strong>
+
+    </div>
+
+
+    <div class="profile-item">
+
+        <span>
+            Goal
+        </span>
+
+        <strong>
+            {{ user.goal }}
+        </strong>
+
+    </div>
+
+
+    <div class="profile-item">
+
+        <span>
+            Intensity
+        </span>
+
+        <strong>
+            {{ user.intensity }}
+        </strong>
+
+    </div>
+
+</section>
+
+
+<section class="card plan-card">
+
+    <div class="card-header">
+
+        <div>
+
+            <span class="section-label">
+                WORKOUT
+            </span>
+
+            <h2>
+                7-Day Fitness Plan
+            </h2>
+
+        </div>
+
+    </div>
+
+
+    <div class="plan-content">
+
+        {% for line in active_plan.split('\n') %}
+
+            {% if line.strip() %}
+
+                {% if line.strip().startswith('DAY') %}
+
+                    <h3 class="day-heading">
+                        {{ line }}
+                    </h3>
+
+                {% elif line.strip().endswith(':') %}
+
+                    <h4>
+                        {{ line }}
+                    </h4>
+
+                {% else %}
+
+                    <p>
+                        {{ line }}
+                    </p>
+
+                {% endif %}
+
+            {% endif %}
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+
+<section class="card nutrition-card">
+
+    <div class="card-header">
+
+        <span class="section-label">
+            NUTRITION & RECOVERY
+        </span>
+
+        <h2>
+            Daily Guidance
+        </h2>
+
+    </div>
+
+    <div class="text-content">
+
+        {% for line in plan.nutrition_tip.split('\n') %}
+
+            {% if line.strip() %}
+
+                <p>
+                    {{ line }}
+                </p>
+
+            {% endif %}
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+
+<section class="card feedback-card">
+
+    <div class="card-header">
+
+        <span class="section-label">
+            MAKE IT BETTER
+        </span>
+
+        <h2>
+            Give FitBuddy Feedback
+        </h2>
+
+        <p>
+            Tell FitBuddy what you want changed.
+            For example: "Add more cardio and give me
+            two rest days."
+        </p>
+
+    </div>
+
+
+    <form
+        method="post"
+        action="/submit-feedback"
+    >
+
+        <input
+            type="hidden"
+            name="user_id"
+            value="{{ user.user_id }}"
+        >
+
+
+        <div class="form-group">
+
+            <label for="feedback">
+                Your feedback
+            </label>
+
+            <textarea
+                id="feedback"
+                name="feedback"
+                rows="5"
+                maxlength="1000"
+                placeholder="Example: Add more cardio and make Day 4 a rest day."
+                required
+            ></textarea>
+
+        </div>
+
+
+        <button
+            type="submit"
+            class="btn btn-secondary"
+        >
+            🔄 Regenerate Plan
+        </button>
+
+    </form>
+
+</section>
+
+
+{% if plan.feedback %}
+
+<section class="card revision-card">
+
+    <span class="section-label">
+        LAST UPDATE
+    </span>
+
+    <h2>
+        Plan Updated Successfully
+    </h2>
+
+    <p>
+        <strong>Your feedback:</strong>
+    </p>
+
+    <p>
+        {{ plan.feedback }}
+    </p>
+
+</section>
+
+{% endif %}
+
+
+<div class="center-actions">
+
+    <a
+        href="/"
+        class="btn btn-outline"
+    >
+        ← Create Another Plan
+    </a>
+
+</div>
+
+{% endblock %}

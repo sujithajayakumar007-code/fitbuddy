@@ -1,0 +1,180 @@
+{% extends "base.html" %}
+
+{% block title %}
+FitBuddy - All Users
+{% endblock %}
+
+
+{% block content %}
+
+<section class="result-header">
+
+    <span class="badge">
+        ADMIN / COACH VIEW
+    </span>
+
+    <h1>
+        All FitBuddy Users
+    </h1>
+
+    <p>
+        View saved users and their latest fitness plans.
+    </p>
+
+</section>
+
+
+{% if not users %}
+
+<div class="card empty-state">
+
+    <div class="empty-icon">
+        📭
+    </div>
+
+    <h2>
+        No users yet
+    </h2>
+
+    <p>
+        Create your first FitBuddy plan from the home page.
+    </p>
+
+</div>
+
+{% endif %}
+
+
+<div class="users-list">
+
+    {% for user in users %}
+
+    <section class="card user-card">
+
+        <div class="user-card-header">
+
+            <div>
+
+                <span class="section-label">
+                    USER
+                </span>
+
+                <h2>
+                    {{ user.name }}
+                </h2>
+
+                <p>
+                    ID: {{ user.user_id }}
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="profile-grid">
+
+            <div class="profile-item">
+
+                <span>
+                    Age
+                </span>
+
+                <strong>
+                    {{ user.age }}
+                </strong>
+
+            </div>
+
+
+            <div class="profile-item">
+
+                <span>
+                    Weight
+                </span>
+
+                <strong>
+                    {{ user.weight }} kg
+                </strong>
+
+            </div>
+
+
+            <div class="profile-item">
+
+                <span>
+                    Goal
+                </span>
+
+                <strong>
+                    {{ user.goal }}
+                </strong>
+
+            </div>
+
+
+            <div class="profile-item">
+
+                <span>
+                    Intensity
+                </span>
+
+                <strong>
+                    {{ user.intensity }}
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        {% if user.plans %}
+
+        {% set latest_plan = user.plans[-1] %}
+
+        <div class="admin-plan">
+
+            <h3>
+                Latest Plan
+            </h3>
+
+            <div class="plan-preview">
+
+                <pre>{{ latest_plan.updated_plan or latest_plan.original_plan }}</pre>
+
+            </div>
+
+
+            {% if latest_plan.feedback %}
+
+            <div class="feedback-preview">
+
+                <strong>
+                    Feedback:
+                </strong>
+
+                <p>
+                    {{ latest_plan.feedback }}
+                </p>
+
+            </div>
+
+            {% endif %}
+
+        </div>
+
+        {% else %}
+
+        <p>
+            No plans saved.
+        </p>
+
+        {% endif %}
+
+    </section>
+
+    {% endfor %}
+
+</div>
+
+{% endblock %}
